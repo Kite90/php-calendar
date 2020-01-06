@@ -1,9 +1,11 @@
 <?php
 
+session_start();
+
 //If login and email were not created
 if ((!isset($_POST['login'])) || (!isset($_POST['pass'])))
 {
-    header('Location: ./index.php');
+    header('Location: index.php');
     exit();
 } 
 
@@ -17,17 +19,54 @@ try {
     else {
 
         $login = $_POST['login'];
-        $pass = $_POST['pass'];
+        $passw = $_POST['pass'];
 
-        $login = htmlentities($login, ENT_QUOTES, "UTF-8");
+        // $login = htmlentities($login, ENT_QUOTES, "UTF-8");
 
         if ($result = $connection->query(
 			sprintf("SELECT * FROM uzytkownicy WHERE user='%s'",
-			mysqli_real_escape_string($connestion,$login)))) {
+			mysqli_real_escape_string($connection,$login)))) {
+
+                $how_many_users = $result->num_rows;
+
+                //If we found a user
+                if($how_many_users>0) {
+                    $row = $result->fetch_assoc();
+                    $_SESSION['row'] = $row['login'];
+
+                    //Password correct
+                    if(password_verify($passw, $row['pass'])) {
+                        $_SESSION['logged'] = true;
+
+                      
+                        unset($_SESSION['login_error']);
+                        
+                        $result->free_result();
+                        header('Location: panel.php');
+                    }
+
+                    //Pass incorrect
+                    else {
+                        $_SESSION['login_error'] = '<span style="color:red">Nieprawidłowy login lub hasło!</span>';
+                        header('Location: index.php');
+                    }
 
 
+                } 
+                //If user not found
+                else {
+                    $_SESSION['login_error'] = '<span style="color:red">Uzytkownik nieznaleziony!</span>';
+                    header('Location: index.php');
+
+                }
 
         }
+        else
+			{
+				throw new Exception($polaczenie->error);
+            }
+            
+            $connection->close();
 
     }
 
