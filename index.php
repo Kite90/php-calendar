@@ -23,6 +23,7 @@ session_start();
     </form>
 
     <?php
+    echo $_SESSION['test'];
     echo $_SESSION['row'];
         if(isset($_SESSION['login_error'])) echo $_SESSION['login_error'];
         

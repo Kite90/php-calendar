@@ -32,10 +32,13 @@ try {
                 //If we found a user
                 if($how_many_users>0) {
                     $row = $result->fetch_assoc();
-                    $_SESSION['row'] = $row['login'];
+                    // $_SESSION['row'] = $row['login'];
+
+                    $_SESSION['test'] = "nie udalo sie";
 
                     //Password correct
                     if(password_verify($passw, $row['pass'])) {
+                        $_SESSION['test'] = "udalo sie";
                         $_SESSION['logged'] = true;
 
                       
