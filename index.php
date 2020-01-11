@@ -1,3 +1,15 @@
+<?php
+session_start();
+
+//if user is logged in
+if((isset($_SESSION['logged'])) && ($_SESSION['logged']==true)) {
+    header('Location: panel.php');
+    exit();
+}
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,11 +22,18 @@
 
     <form action="login.php" method="post">
     Login:<br>
-    <input type="text" name="login" value="Mickey"><br>
+    <input type="text" name="login" ><br>
     Hasło:<br>
-    <input type="password" name="pass" value="Mouse"><br><br>
+    <input type="password" name="pass" ><br><br>
     <input type="submit" value="Submit">
     </form>
+
+    <?php
+    echo $_SESSION['test'];
+    echo $_SESSION['row'];
+        if(isset($_SESSION['login_error'])) echo $_SESSION['login_error'];
+        
+    ?>
         
 </body>
 </html>
