@@ -21,7 +21,7 @@ try {
         $login = $_POST['login'];
         $passw = $_POST['pass'];
 
-        // $login = htmlentities($login, ENT_QUOTES, "UTF-8");
+        $login = htmlentities($login, ENT_QUOTES, "UTF-8");
 
         if ($result = $connection->query(
 			sprintf("SELECT * FROM uzytkownicy WHERE user='%s'",
@@ -34,13 +34,16 @@ try {
                     $row = $result->fetch_assoc();
                     // $_SESSION['row'] = $row['login'];
 
-                    $_SESSION['test'] = "nie udalo sie";
+                  
 
                     //Password correct
                     if(password_verify($passw, $row['pass'])) {
                         $_SESSION['test'] = "udalo sie";
                         $_SESSION['logged'] = true;
 
+                        $_SESSION['id'] = $row['id'];
+                        $_SESSION['user'] = $row['user'];
+                        $_SESSION['funds'] = $row['fundusze'];
                       
                         unset($_SESSION['login_error']);
                         

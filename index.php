@@ -1,6 +1,12 @@
 <?php
 session_start();
 
+//if user is logged in
+if((isset($_SESSION['logged'])) && ($_SESSION['logged']==true)) {
+    header('Location: panel.php');
+    exit();
+}
+
 ?>
 
 
