@@ -20,6 +20,9 @@ if((isset($_SESSION['logged'])) && ($_SESSION['logged']==true)) {
 </head>
 <body>
 
+    <a href="register.php">Rejestracja - załóż darmowe konto!</a>
+	<br /><br />
+
     <form action="login.php" method="post">
     Login:<br>
     <input type="text" name="login" ><br>
