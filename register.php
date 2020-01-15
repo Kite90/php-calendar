@@ -45,6 +45,9 @@
             $_SESSION['error_pass'] = "Passwords do not match";
         }
 
+        //Pass hash
+        $pass_hash = password_hash($pass1, PASSWORD_DEFAULT);
+
         //Validate checkbox
         $checkbox = $_POST['check'];
         if(!isset($checkbox)) {
@@ -73,18 +76,41 @@
                 if(!$email_result) {
                     throw new Exception($connection->error);
                 } 
-
                 $how_many_emails = $email_result->num_rows;
                 if($how_many_emails>0) {
+                    $all_fine = false;
+                    $_SESSION['error_email'] = "Email is present in the database";
                     
+                } 
+
+                //Is nick present in the database?
+                $nick_result = $connection->query("SELECT id FROM uzytkownicy WHERE user='$nick'");
+                if(!$nick_result) {
+                    throw new Exception($connection->error);
                 }
+                $how_many_users = $nick_result->num_rows;
+                if($how_many_users>0) {
+                    $all_fine = false;
+                    $_SESSION['error_nick'] = "Nick is taken!";
+                }
+
+                if($all_fine==true) {
+                    if($connection->query("INSERT INTO uzytkownicy VALUES (NULL, '$nick', '$pass_hash', '$email', 100, 100, 100, 14, 100)")) {
+                        $_SESSION['register_succeed'] = true;
+                        header('Location: welcome.php');
+                    } else {
+                        throw new Exception($connection->error);
+                    }
+                }
+
+                $connection->close();
                 
             }
 
 
 
         } catch(Exception $e) {
-            echo '<span style="color:red;">Błąd serwera! Przepraszamy za niedogodności i prosimy o rejestrację w innym terminie!</span>';
+            echo '<span style="color:red;">Server error!</span>';
 			echo '<br />Informacja developerska: '.$e;
         }
     }
@@ -101,9 +127,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Korepetycje Ady</title>
+    <?php include './inc/header.php';?>
 </head>
 <body>
 
+<div class="container">
 
     <form method="post">
     Nick<br>
@@ -147,10 +175,10 @@
     ?>
 
     <br><br>
-    <input type="submit" value="Submit">
+    <input type="submit" class="btn btn-primary" value="Submit">
     </form>
-
+</div>
    
-        
+<?php include './inc/footer.php';?> 
 </body>
 </html>
