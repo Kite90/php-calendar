@@ -129,55 +129,77 @@
     <title>Korepetycje Ady</title>
     <?php include './inc/header.php';?>
 </head>
-<body>
-
-<div class="container">
-
-    <form method="post">
-    Nick<br>
-    <input type="text" name="nick" ><br>
-    <?php
-    if(isset($_SESSION['error_nick'])) {
-        echo $_SESSION['error_nick'].'<br';
-        unset($_SESSION['error_nick']);
-    }
-    ?>
-
-    <br>Email<br>
-    <input type="text" name="email" ><br>
-    <?php
-    if(isset($_SESSION['error_email'])) {
-        echo $_SESSION['error_email'].'<br';
-        unset($_SESSION['error_email']);
-    }
-    ?>
-
-    Hasło:<br>
-    <input type="password" name="pass" ><br><br>
-    <?php
-    if(isset($_SESSION['error_pass'])) {
-        echo $_SESSION['error_pass'].'<br';
-        unset($_SESSION['error_pass']);
-    }
-    ?>
-
-    Hasło2:<br>
-    <input type="password" name="pass2" ><br><br>
-    <br>
+<body class="text-center">
 
 
-    <input type="checkbox" name="check" ><br>
-    <?php
-    if(isset($_SESSION['error_check'])) {
-        echo $_SESSION['error_check'].'<br';
-        unset($_SESSION['error_check']);
-    }
-    ?>
 
-    <br><br>
-    <input type="submit" class="btn btn-primary" value="Submit">
+    <form class="form-custom" method="post">
+        <h1>Register</h1>
+
+        <label for="nick" class="sr-only">Nick</label>
+        <input type="text" id="nick" name="nick" class="form-control" placeholder="Nick" required autofocus>
+    
+       
+        <?php
+        if(isset($_SESSION['error_nick'])) {
+            echo $_SESSION['error_nick'].'<br>';
+            unset($_SESSION['error_nick']);
+        }
+        ?>
+        
+
+        <label for="email" class="sr-only">Email</label>
+        <input type="text" name="email" id="email" class="form-control" placeholder="Email" required>
+        <?php
+        if(isset($_SESSION['error_email'])) {
+            echo $_SESSION['error_email'].'<br>';
+            unset($_SESSION['error_email']);
+        }
+        ?>
+
+
+        <label for="pass" class="sr-only">Password</label>
+        <?php if(isset($_SESSION['error_pass'])) {
+           echo '<input type="password" name="pass" id="pass" class="form-control is-invalid" placeholder="Password" required>';
+        } else {
+           echo '<input type="password" name="pass" id="pass" class="form-control" placeholder="Password" required>';
+        }
+        ?>
+        
+        <?php
+        if(isset($_SESSION['error_pass'])) {
+            echo $_SESSION['error_pass'].'<br>';
+            unset($_SESSION['error_pass']);
+        }
+        ?>
+
+        
+        <label for="pass2" class="sr-only">Password</label>
+        <input type="password" name="pass2" id="pass2" class="form-control" placeholder="Password" required>
+        <br>
+
+        <!-- <div class="checkbox mb-3">
+        <label>
+          <input type="checkbox" value="remember-me"> Remember me
+        </label>
+      </div> -->
+
+      <div class="checkbox mb-3">
+         <label>
+        <input type="checkbox" name="check" >Checkbox
+        </label>
+        <?php
+        if(isset($_SESSION['error_check'])) {
+            echo $_SESSION['error_check'].'<br';
+            unset($_SESSION['error_check']);
+        }
+        ?>
+        
+       </div>
+
+        <input type="submit" class="btn btn-primary" value="Submit">
     </form>
-</div>
+
    
 <?php include './inc/footer.php';?> 
 </body>
